@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Admin = require('../models/adminModel');
 
-mongoose.connect('mongodb+srv://perodrigoalonso:123@edutrack360.l3yhxcf.mongodb.net/edutrack360?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://usuario:123@cluster0.odwwqtn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(async () => {
