@@ -1,0 +1,146 @@
+<div class="sidebar">
+    <h2>Edutrack360</h2>
+    <nav id="menu-principal">
+       
+        
+        <a href="/docentes" data-rol="administrador">Docentes</a>
+        <a href="/estudiantes" data-rol="administrador">estudiantes</a>        
+        <a href="/login" data-rol="alumno profesor" class="menu-item">Mi Aprendizaje</a>
+        <a href="/login" data-rol="alumno profesor" class="menu-item">Mis Cursos</a>
+        <a href="/login" data-rol="alumno profesor" class="menu-item">Cursos</a>
+        <a href="/login" data-rol="alumno profesor" class="menu-item">Tareas</a>
+        <a href="/login" data-rol="alumno profesor administrador" class="menu-item">Mi Perfil</a>
+
+    </nav>
+    <a href="index" class="logout">Cerrar sesión</a>
+</div>
+
+<style>
+ 
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f3f4f6; 
+    color: #374151; 
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px; 
+    height: 100vh;
+    background: #111827;
+    color: #e5e7eb; 
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 10; 
+}
+
+.sidebar h2 {
+    color: #8b5cf6; 
+    margin-bottom: 30px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    padding-left: 10px;
+    border-left: 4px solid #8b5cf6;
+}
+
+.sidebar nav {
+    margin-top: 20px;
+}
+
+.sidebar nav a {
+    display: block;
+    color: #d1d5db; 
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-weight: 400;
+    background-color: transparent;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.sidebar nav a:hover {
+    background-color: #1f2937; 
+    color: #f9fafb;
+}
+
+.sidebar nav a.active {
+    background: #6d28d9;
+    color: #f9fafb;
+    font-weight: 500;
+}
+
+.sidebar .logout {
+    color: #ef4444; 
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease-in-out;
+}
+
+.sidebar .logout:hover {
+    color: #fca5a5;
+}
+
+.sidebar .menu-section {
+    margin-bottom: 20px;
+}
+
+.sidebar .menu-section h3 {
+    color: #a78bfa;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    padding-left: 10px;
+    border-left: 3px solid #a78bfa;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.sidebar .menu-section a {
+    display: block;
+    color: #d1d5db;
+    text-decoration: none;
+    margin: 8px 0;
+    padding: 12px 15px; 
+    border-radius: 6px; 
+    font-weight: 400;
+    background-color: transparent;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.sidebar .menu-section a:hover {
+    background-color: #1f2937; 
+    color: #f9fafb;
+}
+</style>
+
+<script>
+    function actualizarMenuPorRol(rol) {
+        const secciones = document.querySelectorAll('#menu-principal > div');
+        const items = document.querySelectorAll('#menu-principal > a');
+
+        secciones.forEach(seccion => {
+            const rolesPermitidos = seccion.getAttribute('data-rol').split(' ');
+            seccion.style.display = rolesPermitidos.includes(rol) ? 'block' : 'none';
+        });
+
+        items.forEach(item => {
+            const rolesPermitidos = item.getAttribute('data-rol').split(' ');
+            item.style.display = rolesPermitidos.includes('alumno') || rolesPermitidos.includes('profesor') || rolesPermitidos.includes('administrador') || rolesPermitidos.includes(rol) ? 'block' : 'none';
+        });
+    }
+
+    const rolUsuario = 'alumno'; 
+    actualizarMenuPorRol(rolUsuario);
+</script>

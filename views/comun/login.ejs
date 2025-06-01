@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - EduTrack360</title>
+    <link rel="stylesheet" href="/assets/css/comun/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="phone-mockup">
+                <div class="screen">
+                    <div class="logo-placeholder">CO</div>
+                    <div class="content-placeholder"></div>
+                    <div class="content-placeholder" style="width: 60%;"></div>
+                    <div class="content-placeholder"></div>
+                </div>
+            </div>
+            <div class="plant-decoration"></div>
+            <div class="person-decoration"></div>
+        </div>
+        <div class="right-section" id="role-selection">
+            <h2 class="login-title">Seleccione su rol</h2>
+            <button class="role-button" onclick="showLogin('Administrador')">Administrador</button>
+            <button class="role-button" onclick="showLogin('Estudiante')">Estudiante</button>
+            <button class="role-button" onclick="showLogin('Docente')">Docente</button>
+        </div>
+        <div class="right-section" id="login-form" style="display: none;">
+            <h2 class="login-title" id="login-role-title">Iniciar sesión</h2>
+            <form method="POST" action="/login">
+                <input type="hidden" id="userRole" name="userRole" value="">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Ejemplo: abc@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Tu contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="********" required>
+                </div>
+                <button type="submit" class="login-button">Iniciar sesión</button>
+            </form>
+            <button class="back-button" onclick="goBack()">Volver al inicio</button>
+            <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="error-message" style="color: red; margin-top: 10px;">
+                <%= errorMessage %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function showLogin(role) {
+            document.getElementById('role-selection').style.display = 'none';
+            document.getElementById('login-form').style.display = 'flex';
+            document.getElementById('login-role-title').textContent = `Iniciar sesión como ${role}`;
+            document.getElementById('userRole').value = role;
+            document.getElementById('error-message').style.display = 'none'; // Ocultar mensajes de error al cambiar de rol
+        }
+
+        function goBack() {
+            document.getElementById('role-selection').style.display = 'flex';
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('userRole').value = '';
+            document.getElementById('error-message').style.display = 'none'; // Ocultar mensajes de error al volver
+        }
+    </script>
+</body>
+</html>

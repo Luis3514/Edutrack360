@@ -1,0 +1,149 @@
+/* Blue themed sidebar for estudiante panel */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f8ff;
+}
+
+.sidebar.blue-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #3b5998; /* Blue color */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-header .logo {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+}
+
+.sidebar-header .title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.sidebar-header .subtitle {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.menu-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.menu-items li {
+  margin: 0;
+}
+
+.menu-button {
+  width: 100%;
+  padding: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: background-color 0.3s, border-left-color 0.3s;
+}
+
+.menu-button:hover,
+.menu-button.active {
+  background-color: #2d4373;
+  border-left-color: #a3bffa;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+  display: none;
+}
+
+.overlay.visible {
+  display: block;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  background-color: #4a69ad;
+  color: white;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+.curso-card, .tarea-card {
+  background: white;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  background: white;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.data-table th, .data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #3b5998;
+  color: white;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EduTrack360 - Panel Estudiante</title>
+  <link rel="stylesheet" href="/assets/css/estudiantes/estudiantes.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <button id="sidebarToggle" aria-label="Toggle menu" class="sidebar-toggle">&#9776;</button>
+
+  <aside id="sidebar" class="sidebar blue-sidebar">
+    <div class="sidebar-header">
+      <div class="logo">🎓</div>
+      <div>
+        <h2 class="title">EduTrack360</h2>
+        <p class="subtitle">Panel Estudiante</p>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close menu">&times;</button>
+    </div>
+    <nav>
+      <ul id="menuItems" class="menu-items">
+        <li><button data-tab="mis-cursos" class="menu-button active">📚 Mis Cursos</button></li>
+        <li><button data-tab="mis-tareas" class="menu-button">📋 Mis Tareas</button></li>
+        <li><button data-tab="mi-seguimiento" class="menu-button">📈 Mi Seguimiento</button></li>
+        <li><button data-tab="mi-asistencia" class="menu-button">🗓️ Mi Asistencia</button></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div id="overlay" class="overlay hidden"></div>
+
+  <div class="main-content">
+    <header class="header">
+      <button id="logoutButton" class="logout-button" aria-label="Cerrar sesión">🔓 Cerrar sesión</button>
+    </header>
+
+    <main id="estudianteContent" class="estudiante-content">
+      <section id="mis-cursos" class="tab-section active">
+        <h2>Mis Cursos</h2>
+        <div id="cursosContainer">
+          <!-- Cursos list rendered here -->
+        </div>
+      </section>
+      <section id="mis-tareas" class="tab-section">
+        <h2>Mis Tareas</h2>
+        <div id="tareasContainer">
+          <!-- Tareas list rendered here -->
+        </div>
+      </section>
+      <section id="mi-seguimiento" class="tab-section">
+        <h2>Mi Seguimiento Académico</h2>
+        <canvas id="rendimientoChart" width="500" height="500" style="display: block; margin: 1rem auto;"></canvas>
+        <canvas id="asistenciaChart" width="500" height="500" style="display: block; margin: 1rem auto;"></canvas>
+      </section>
+      <section id="mi-asistencia" class="tab-section">
+        <h2>Mi Asistencia</h2>
+        <table id="asistenciaTable" class="data-table" style="width: 100%; margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Curso</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Asistencia records inserted by JS -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script src="/assets/js/estudiantes/estudiantes.js"></script>
+</body>
+</html>

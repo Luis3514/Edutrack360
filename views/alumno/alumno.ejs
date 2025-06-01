@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EduTrack360 - Panel Estudiante</title>
+  <link rel="stylesheet" href="/assets/css/estudiantes/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <button id="sidebarToggle" aria-label="Toggle menu" class="sidebar-toggle">
+    &#9776;
+  </button>
+
+  <aside id="sidebar" class="sidebar purple-sidebar">
+    <div class="sidebar-header">
+      <div class="logo">🎓</div>
+      <div>
+        <h2 class="title">EduTrack360</h2>
+        <p class="subtitle">Panel Estudiante</p>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close menu">&times;</button>
+    </div>
+    <nav>
+      <ul id="menuItems" class="menu-items">
+        <li><button data-tab="mis-tareas" class="menu-button active">📋 Mis Tareas</button></li>
+        <li><button data-tab="mis-cursos" class="menu-button">📚 Mis Cursos</button></li>
+        <li><button data-tab="mi-perfil" class="menu-button">👤 Mi Perfil</button></li>
+        <li><button data-tab="mi-asistencia" class="menu-button">🗓️ Mi Asistencia</button></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div id="overlay" class="overlay hidden"></div>
+
+  <div class="main-content">
+    <header class="header">
+      <button id="logoutButton" class="logout-button" aria-label="Cerrar sesión">
+        🔓 Cerrar sesión
+      </button>
+    </header>
+
+    <main id="estudianteContent" class="estudiante-content">
+      <section id="mis-tareas" class="tab-section active">
+        <h2>Mis Tareas</h2>
+        <p>Aquí se mostrarán las tareas asignadas.</p>
+      </section>
+      <section id="mis-cursos" class="tab-section">
+        <h2>Mis Cursos</h2>
+        <p>Aquí se mostrarán los cursos inscritos.</p>
+      </section>
+      <section id="mi-perfil" class="tab-section">
+        <h2>Mi Perfil</h2>
+        <p>Aquí se mostrarán los datos del perfil del estudiante.</p>
+      </section>
+      <section id="mi-asistencia" class="tab-section">
+        <h2>Mi Asistencia</h2>
+        <p>Aquí se mostrará el historial de asistencia.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/assets/js/estudiantes/estudiantes.js"></script>
+</body>
+</html>

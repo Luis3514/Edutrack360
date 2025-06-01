@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EduTrack360 - Panel Administrativo</title>
+  <link rel="stylesheet" href="/assets/css/administrador/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <button id="sidebarToggle" aria-label="Toggle menu" class="sidebar-toggle">
+    &#9776;
+  </button>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">🏫</div>
+      <div>
+        <h2 class="title">EduTrack360</h2>
+        <p class="subtitle">Panel Administrativo</p>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close menu">&times;</button>
+    </div>
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar"><%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %></div>
+        <div>
+          <h3 id="userName"><%= user.name %></h3>
+          <p id="userEmail"><%= user.email %></p>
+        </div>
+      </div>
+    <nav>
+      <ul id="menuItems" class="menu-items">
+        <li><button data-tab="dashboard" class="menu-button active">📊 Dashboard</button></li>
+        <li><button data-tab="ver-salones-section" class="menu-button">📚 Ver Salones</button></li>
+        <li><button data-tab="ver-estudiantes-section" class="menu-button">🎓 Ver Estudiantes</button></li>
+        <li><button data-tab="ver-docentes-section" class="menu-button">👥 Ver Docentes</button></li>
+        <li><button data-tab="generar-reportes-section" class="menu-button">📄 Generar Reportes</button></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div id="overlay" class="overlay hidden"></div>
+
+  <div class="main-content">
+    <header class="header">
+      <div class="user-header-info">
+        <div class="user-avatar" id="headerUserAvatar"><%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %></div>
+        <div>
+          <h2 id="headerUserName"><%= user.name %></h2>
+          <p id="headerUserEmail"><%= user.email %></p>
+        </div>
+      </div>
+      <button id="logoutButton" class="logout-button" aria-label="Cerrar sesión">
+        🔓 Cerrar sesión
+      </button>
+    </header>
+
+    <main id="dashboardContent" class="dashboard-content">
+      <section id="dashboard" class="tab-section active">
+        <div class="dashboard-home">
+          <div class="charts-stats">
+            <div class="card">
+              <div class="card-header">
+                <span>📈</span>
+                <h3>Rendimiento General de Salones</h3>
+              </div>
+              <div class="card-body">
+                <canvas id="performanceChart" height="200"></canvas>
+              </div>
+            </div>
+            <div class="card stats-cards">
+              <div class="card-header">
+                <span>📊</span>
+                <h3>Estadísticas Generales</h3>
+              </div>
+              <div class="card-body stats-grid">
+                <div class="stat-card blue">
+                <h4>Total Salones</h4>
+                <p id="totalClassrooms"><%= totalSalones %></p>
+              </div>
+              <div class="stat-card indigo">
+                <h4>Total Estudiantes</h4>
+                <p id="totalStudents"><%= totalEstudiantes %></p>
+              </div>
+              <div class="stat-card teal">
+                <h4>Promedio Rendimiento</h4>
+                <p id="averagePerformance"><%= Math.round(averageRendimiento) %>%</p>
+              </div>
+              <div class="stat-card amber">
+                <h4>Ocupación</h4>
+                <p id="occupancy"><%= Math.round(occupancy) %>%</p>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="card full-width">
+            <div class="card-header">
+              <span>📋</span>
+              <h3>Resumen de Salones</h3>
+            </div>
+            <div class="card-body">
+              <table id="classroomsTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>Nombre Salón</th>
+                    <th>Capacidad</th>
+                    <th>Alumnos Inscritos</th>
+                    <th>Docente Asignado</th>
+                    <th>Rendimiento Prom. (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Rows inserted by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ver-salones-section" class="tab-section">
+        <div class="section-header">
+          <h2>Gestión de Salones</h2>
+          <button id="createClassroomBtn" class="btn-primary">➕ Crear Nuevo Salón</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <table id="classroomsSectionTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Bloque</th>
+                  <th>Ubicación</th>
+                  <th>Capacidad</th>
+                  <th>Docente</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows inserted by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="ver-estudiantes-section" class="tab-section">
+        <div class="section-header">
+          <h2>Gestión de Estudiantes</h2>
+        <button id="createStudentBtn" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-plus-square" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align: middle; margin-right: 0.25rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          Crear Nuevo Estudiante
+        </button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <table id="studentsSectionTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Correo</th>
+                  <th>Salón Asignado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows inserted by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="ver-docentes-section" class="tab-section">
+        <div class="section-header">
+          <h2>Gestión de Docentes</h2>
+          <button id="createTeacherBtn" class="btn-primary">➕ Crear Nuevo Docente</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <table id="teachersSectionTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Correo</th>
+                  <th>Grado Académico</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows inserted by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="generar-reportes-section" class="tab-section">
+        <div class="section-header">
+          <h2>Generar Reportes</h2>
+          <button id="generatePdfBtn" class="btn-primary">📝 Generar PDF</button>
+        </div>
+        <div class="cards-container" style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap;">
+          <div class="card full-width" style="background: white; padding: 1rem; margin-top: 1rem; flex: 1 1 60%;">
+            <h4>Mejores Docentes</h4>
+            <table id="bestTeachersTable" class="data-table" style="margin-top: 0.5rem;">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Salones Asignados</th>
+                  <th>Rendimiento Promedio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (docentes && docentes.length > 0) { %>
+                  <% docentes.forEach(function(docente) { %>
+                    <tr>
+                      <td><%= docente.Nombre %> <%= docente.Apellido %></td>
+                      <td><%= docente.correo %></td>
+                      <td>
+                        <% 
+                          var assignedSalones = 0;
+                          if (salones && salones.length > 0) {
+                            assignedSalones = salones.filter(function(salon) {
+                              return salon.docente && salon.docente.toString() === docente._id.toString();
+                            }).length;
+                          }
+                        %>
+                        <%= assignedSalones %>
+                      </td>
+                      <td>
+                        <% 
+                          var avgPerformance = 0;
+                          if (salones && salones.length > 0) {
+                            var assigned = salones.filter(function(salon) {
+                              return salon.docente && salon.docente.toString() === docente._id.toString();
+                            });
+                            if (assigned.length > 0) {
+                              avgPerformance = Math.round(assigned.reduce(function(sum, s) {
+                                return sum + (s.rendimiento || 0);
+                              }, 0) / assigned.length);
+                            }
+                          }
+                        %>
+                        <span class="<%= avgPerformance >= 80 ? 'text-green-600' : avgPerformance >= 70 ? 'text-amber-600' : 'text-red-600' %>" style="font-weight: 600;">
+                          <%= avgPerformance %>%
+                        </span>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4" style="text-align: center;">No hay docentes disponibles</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <div class="stat-card amber" style="flex-direction: column; align-items: center; width: 500px; height: 500px; margin-top: 1rem;">
+            <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Rendimiento de Salones</h4>
+            <canvas id="performancePieChart" width="500" height="500"></canvas>
+          </div>
+          <div style="width: 100%; display: flex; gap: 1rem; margin-top: 1rem;">
+            <div class="stat-card blue" style="flex: 1; text-align: center;">
+              <h4>Total Salones</h4>
+              <p id="reportTotalClassrooms">0</p>
+            </div>
+            <div class="stat-card indigo" style="flex: 1; text-align: center;">
+              <h4>Total Estudiantes</h4>
+              <p id="reportTotalStudents">0</p>
+            </div>
+            <div class="stat-card teal" style="flex: 1; text-align: center;">
+              <h4>Total Docentes</h4>
+              <p id="reportTotalTeachers">0</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal container -->
+  <div id="modalContainer" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h3 id="modalTitle"></h3>
+        <button id="modalCloseBtn" aria-label="Cerrar diálogo">&times;</button>
+      </header>
+      <div id="modalBody" class="modal-body"></div>
+      <footer class="modal-footer">
+        <button id="modalCancelBtn" class="btn-secondary">Cancelar</button>
+        <button id="modalConfirmBtn" class="btn-primary">Confirmar</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Confirm dialog container -->
+  <div id="confirmDialog" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmDialogTitle">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h3 id="confirmDialogTitle"></h3>
+        <button id="confirmDialogCloseBtn" aria-label="Cerrar diálogo">&times;</button>
+      </header>
+      <div id="confirmDialogBody" class="modal-body"></div>
+      <footer class="modal-footer">
+        <button id="confirmDialogCancelBtn" class="btn-secondary">Cancelar</button>
+        <button id="confirmDialogConfirmBtn" class="btn-danger">Eliminar</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/assets/js/administrador/app.js"></script>
+</body>
+</html>

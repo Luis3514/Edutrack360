@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EduTrack360 - Panel Docente</title>
+  <link rel="stylesheet" href="/assets/css/docentes/docentes.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <button id="sidebarToggle" aria-label="Toggle menu" class="sidebar-toggle">
+    &#9776;
+  </button>
+
+  <aside id="sidebar" class="sidebar purple-sidebar">
+    <div class="sidebar-header">
+      <div class="logo">📚</div>
+      <div>
+        <h2 class="title">EduTrack360</h2>
+        <p class="subtitle">Panel Docente</p>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close menu">&times;</button>
+    </div>
+    <nav>
+      <ul id="menuItems" class="menu-items">
+        <li><button data-tab="cursos" class="menu-button active">📚 Cursos</button></li>
+        <li><button data-tab="tareas" class="menu-button">📋 Tareas</button></li>
+        <li><button data-tab="seguimiento-academico" class="menu-button">📈 Seguimiento Académico</button></li>
+        <li><button data-tab="gestion-asistencia" class="menu-button">🗓️ Gestión de Asistencia</button></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div id="overlay" class="overlay hidden"></div>
+
+  <div class="main-content">
+    <header class="header">
+      <button id="logoutButton" class="logout-button" aria-label="Cerrar sesión">
+        🔓 Cerrar sesión
+      </button>
+    </header>
+
+    <main id="docenteContent" class="docente-content">
+      <section id="cursos" class="tab-section active">
+        <h2>Cursos</h2>
+        <button id="createCursoBtn" class="btn-primary">➕ Crear Curso</button>
+        <table id="cursosTable" class="data-table" style="width: 100%; margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th>Bloque</th>
+              <th>Ubicación</th>
+              <th>Capacidad</th>
+              <th>Docente</th>
+              <th>Rendimiento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Cursos rows inserted by JS -->
+          </tbody>
+        </table>
+
+        <!-- Modal for create/edit curso -->
+        <div id="cursoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; text-align: center;">
+          <div class="modal-content" style="background: white; padding: 1rem; border-radius: 5px; width: 400px; max-width: 90%; margin: auto; display: inline-block; vertical-align: middle;">
+            <header class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 id="modalTitle"></h3>
+              <button id="modalCloseBtn" aria-label="Cerrar diálogo" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </header>
+            <form id="cursoForm" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label>
+                Bloque:<br />
+                <input type="text" name="bloque" required />
+              </label>
+              <label>
+                Ubicación:<br />
+                <input type="text" name="ubicacion" required />
+              </label>
+              <label>
+                Capacidad:<br />
+                <input type="number" name="capacidad" required min="1" />
+              </label>
+              <button type="submit" class="btn-primary" style="margin-top: 1rem;">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <section id="tareas" class="tab-section">
+        <h2>Tareas</h2>
+        <button id="createTareaBtn" class="btn-primary">➕ Crear Tarea</button>
+        <div id="tareasContainer" style="margin-top: 1rem;">
+          <!-- Task cards will be rendered here -->
+        </div>
+
+        <!-- Modal for create/edit tarea -->
+        <div id="tareaModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="tareaModalTitle" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; text-align: center;">
+          <div class="modal-content" style="background: white; padding: 1rem; border-radius: 5px; width: 400px; max-width: 90%; margin: auto; display: inline-block; vertical-align: middle;">
+            <header class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 id="tareaModalTitle"></h3>
+              <button id="tareaModalCloseBtn" aria-label="Cerrar diálogo" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </header>
+            <form id="tareaForm" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label>
+                Curso:<br />
+                <select name="curso" id="tareaCursoSelect" required>
+                  <!-- Options populated by JS -->
+                </select>
+              </label>
+              <label>
+                Título:<br />
+                <input type="text" name="titulo" required />
+              </label>
+              <label>
+                Descripción:<br />
+                <textarea name="descripcion" rows="4" required></textarea>
+              </label>
+              <label>
+                Fecha de entrega:<br />
+                <input type="date" name="fechaEntrega" required />
+              </label>
+              <button type="submit" class="btn-primary" style="margin-top: 1rem;">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <section id="seguimiento-academico" class="tab-section">
+        <h2>Seguimiento Académico</h2>
+        <canvas id="seguimientoChart" style="max-width: 600px; margin: 1rem auto;"></canvas>
+        <h3>Mejores Alumnos</h3>
+        <table id="mejoresAlumnosTable" class="data-table" style="width: 100%; margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Curso</th>
+              <th>Promedio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Best students rows inserted by JS -->
+          </tbody>
+        </table>
+      </section>
+      <section id="gestion-asistencia" class="tab-section">
+        <h2>Gestión de Asistencia</h2>
+        <button id="createAsistenciaBtn" class="btn-primary">➕ Registrar Asistencia</button>
+        <table id="asistenciaTable" class="data-table" style="width: 100%; margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Curso</th>
+              <th>Asistentes</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Attendance records inserted by JS -->
+          </tbody>
+        </table>
+
+        <!-- Modal for create/edit asistencia -->
+        <div id="asistenciaModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="asistenciaModalTitle" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; text-align: center;">
+          <div class="modal-content" style="background: white; padding: 1rem; border-radius: 5px; width: 400px; max-width: 90%; margin: auto; display: inline-block; vertical-align: middle;">
+            <header class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 id="asistenciaModalTitle"></h3>
+              <button id="asistenciaModalCloseBtn" aria-label="Cerrar diálogo" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </header>
+            <form id="asistenciaForm" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label>
+                Curso:<br />
+                <select name="curso" id="asistenciaCursoSelect" required>
+                  <!-- Options populated by JS -->
+                </select>
+              </label>
+              <label>
+                Fecha:<br />
+                <input type="date" name="fecha" required />
+              </label>
+              <label>
+                Asistentes:<br />
+                <input type="number" name="asistentes" min="0" required />
+              </label>
+              <button type="submit" class="btn-primary" style="margin-top: 1rem;">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/assets/js/docentes/docentes.js"></script>
+</body>
+</html>
